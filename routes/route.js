@@ -1,8 +1,8 @@
 const express = require('express');
-const tempController = require('../controllers/tempController');
+const sensor = require('../controllers/sensor');
 const router = express.Router();
 
-router.get('/api/getLogs/:deviceID', tempController.getLogs);
-router.post('/api/logTemp/:deviceID/:temperature', tempController.logTemp);
+router.get('/api/getLogs/:sensorID', sensor.getLogs);
+router.post('/api/logData/:tabla/:sensorID/:data', sensor.logData);
 
 module.exports = router;
