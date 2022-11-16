@@ -24,8 +24,15 @@ var accessLogStream = fs.createWriteStream(path.join(__dirname, '/logs/access.lo
 app.use(morgan('combined', { stream: accessLogStream }))
 app.use(router)
 
+//app.use(express.static(path.join(__dirname,'sql_trial.js')));
+//app.use(express.static('IoT'))
+app.use(express.static(__dirname))
+console.log(__dirname)
+
+
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, 'index.html'))
+  //res.sendFile(path.join(__dirname, 'sql_trial.js'))
 })
 
 const port = 3100
