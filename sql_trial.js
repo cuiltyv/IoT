@@ -1,4 +1,4 @@
-var mysql      = require('mysql');
+var mysql      = require('mysql2');
 var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'danfo',
@@ -8,9 +8,11 @@ var connection = mysql.createConnection({
 
 connection.connect();
 
-connection.query('SELECT * FROM DEVICES', function (error, results, fields) {
+connection.query('SELECT * FROM log_temp', function (error, results, fields) {
   if (error) throw error;
-  console.log('The solution is: ', results[0].solution);
+  console.log('The query result is: ', results);
+  //document.getElementById("lista").innerHTML = results;
 });
+
 
 connection.end();

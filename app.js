@@ -5,6 +5,7 @@ const fs = require('fs')
 const path = require('path')
 const morgan = require('morgan')
 const router = require('./routes/route')
+const sqlscr = require('./sql_trial')
 const app = express()
 
 app.use(cors())
@@ -28,7 +29,6 @@ app.use(router)
 //app.use(express.static('IoT'))
 app.use(express.static(__dirname))
 console.log(__dirname)
-
 
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, 'index.html'))
