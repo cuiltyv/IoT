@@ -14,7 +14,31 @@
 <p>Lista de sensores registrados:</p>
 <p id="lista">-</p>
 
-<button type="button" onclick = "reqdata()">Try it</button>
+<form>
+  <input id='displayField' type="text"/>
+  <button id="getButton" type="button" >Pedir datos del sensor</button>
+</form>
+
+
+<script>
+  const getButton = document.getElementById('getButton')
+  const display = document.getElementById('displayField')
+  const baseUrl = 'http://localhost:3100/getData'
+
+  getButton.addEventListener('click', getInfo)
+
+
+
+  async function getInfo(e){
+    e.preventDefault()
+    const res = await fetch(baseUrl, {method: 'GET'})
+    console.log(res)
+    const data = await res.json()
+    display.value = data.info
+  }
+
+</script>
+
 
 </body>
 </html>

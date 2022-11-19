@@ -35,6 +35,10 @@ app.get('/', function(req, res) {
   //res.sendFile(path.join(__dirname, 'sql_trial.js'))
 })
 
+app.get('/getData', function(req, res) {
+  res.status(200).json({info: 'preset text'})
+})
+
 const port = 3100
 
 // app.listen(process.env.PORT || port , (err) => {
