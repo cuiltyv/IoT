@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-
+<!--Setup inicial e imports de scripts de terceros-->
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
@@ -11,27 +11,27 @@
 
 <body>
 
-<p>Visualizador de base de datos IOT equipo 5.</p>
-<p>Lista de sensores registrados:</p>
-<p id="displayListaSensores"></p>
-<div id="piechart"></div>
+  <p>Visualizador de base de datos IOT equipo 5.</p>
+  <p>Lista de sensores registrados:</p>
+  <p id="displayListaSensores"></p>
+  <div id="piechart"></div>
 
-<script defer>
-  const display = document.getElementById('displayListaSensores')
-  const baseUrl = 'http://localhost:3100/getSensorList'
+  <script defer>
+    const display = document.getElementById('displayListaSensores')
+    const baseUrl = 'http://localhost:3100/getSensorList'
 
-  getInfo()
+    getInfo()
 
-  async function getInfo(){
-    const res = await fetch(baseUrl, {method: 'GET'})
-    const data = await res.json()
-    text = data.info[0].nombre + "<br>"
-    for (let i = 1; i < data.info.length; i++){
+    async function getInfo(){
+      const res = await fetch(baseUrl, {method: 'GET'})
+      const data = await res.json()
+      text = data.info[0].nombre + "<br>"
+      for (let i = 1; i < data.info.length; i++){
 	    text += data.info[i].nombre + "<br>"
-    }
-    display.innerHTML = text
-    console.log(text)
-  }
+      }
+      display.innerHTML = text
+      console.log(text)
+    }   
 
 </script>
 
