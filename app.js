@@ -5,7 +5,7 @@ const fs = require('fs')
 const path = require('path')
 const morgan = require('morgan')
 const router = require('./routes/route')
-const sqlscr = require('./sql_trial')
+//const sqlscr = require('./sql_trial')
 const app = express()
 
 app.use(cors())
@@ -51,7 +51,7 @@ var connection = mysql.createConnection({
 
 connection.connect();
 
-connection.query('SELECT * FROM log_temp', function (error, results, fields) {
+connection.query('SELECT * FROM sensores', function (error, results, fields) {
   if (error) throw error;
   console.log('The query result is: ', results);
   res.status(200).json({info: results[0].log_id});
@@ -59,8 +59,39 @@ connection.query('SELECT * FROM log_temp', function (error, results, fields) {
 });
 
 
+//hdosjhfojf
+
 connection.end();
 })
+
+app.get('/getSensorList', function(req, res) {
+
+var mysql      = require('mysql2');
+var connection = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'danfo',
+  password : 'D4062.tectec',
+  database : 'iot'
+});
+
+connection.connect();
+
+connection.query('SELECT nombre FROM sensores', function (error, results, fields) {
+  if (error) throw error;
+  console.log('The query result is: ', results);
+  res.status(200).json({info: results});
+  //document.getElementById("lista").innerHTML = results;
+});
+
+
+//hdosjhfojf
+
+connection.end();
+})
+
+
+
+
 
 const port = 3100
 

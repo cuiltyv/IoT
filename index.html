@@ -12,29 +12,30 @@
 
 <p>Visualizador de base de datos IOT equipo 5.</p>
 <p>Lista de sensores registrados:</p>
-<p id="lista">-</p>
+<p id="displayListaSensores"></p>
 
 <form>
-  <input id='displayField' type="text"/>
-  <button id="getButton" type="button" >Pedir datos del sensor</button>
+  <button id="getButton" type="button" >Pedir lista de sensores</button>
 </form>
 
 
-<script>
+<script defer>
   const getButton = document.getElementById('getButton')
-  const display = document.getElementById('displayField')
-  const baseUrl = 'http://localhost:3100/getData2'
+  const display = document.getElementById('displayListaSensores')
+  const baseUrl = 'http://localhost:3100/getSensorList'
 
   getButton.addEventListener('click', getInfo)
-
-
 
   async function getInfo(e){
     e.preventDefault()
     const res = await fetch(baseUrl, {method: 'GET'})
-    console.log(res)
     const data = await res.json()
-    display.value = data.info
+    text = data.info[0].nombre + "<br>"
+    for (let i = 1; i < data.info.length; i++){
+	    text += data.info[i].nombre + "<br>"
+    }
+    display.innerHTML = text
+    console.log(text)
   }
 
 </script>
