@@ -39,6 +39,29 @@ app.get('/getData', function(req, res) {
   res.status(200).json({info: 'preset text'})
 })
 
+app.get('/getData2', function(req, res) {
+
+var mysql      = require('mysql2');
+var connection = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'danfo',
+  password : 'D4062.tectec',
+  database : 'iot'
+});
+
+connection.connect();
+
+connection.query('SELECT * FROM log_temp', function (error, results, fields) {
+  if (error) throw error;
+  console.log('The query result is: ', results);
+  res.status(200).json({info: results[0].log_id});
+  //document.getElementById("lista").innerHTML = results;
+});
+
+
+connection.end();
+})
+
 const port = 3100
 
 // app.listen(process.env.PORT || port , (err) => {
