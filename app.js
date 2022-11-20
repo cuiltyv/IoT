@@ -29,16 +29,20 @@ app.get('/', function(req, res) {
 })
 
 //Ruta para la lista de sensores
-app.get('/getSensorList', function(req, res) {
+app.get('/DB_Request/:dynamic', function(req, res) {
   //Requerimos el modulo para sql
   var mysql = require('mysql2');
+
+  // Parseamos los contenidos de la url
+  query = req.url.replace('/DB_Request/', '').replaceAll('_', ' ')
+  console.log(query)
 
   //Conectamos a la base de datos con la info de /config/db.config.js
   var connection = mysql.createConnection({host: config.HOST, user: config.USER, password: config.PASSWORD, database: config.DB});
   connection.connect();
 
   //Hacemos la query
-  connection.query('SELECT nombre FROM sensores', function (error, results, fields) {
+  connection.query(query, function (error, results, fields) {
     if (error) throw error;
     console.log('The query result is: ', results);
     res.status(200).json({info: results});

@@ -1,39 +1,454 @@
 <!DOCTYPE html>
 <html>
-
+<!--Setup inicial e imports de scripts de terceros-->
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>IOT Team 5</title>
   <!-- link href="style.css" rel="stylesheet" type="text/css" / -->
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script>const baseUrl = 'http://localhost:3100/DB_Request/'</script>
 </head>
 
 <body>
 
-<p>Visualizador de base de datos IOT equipo 5.</p>
-<p>Lista de sensores registrados:</p>
-<p id="displayListaSensores"></p>
-<div id="piechart"></div>
+  
+  <center><font size="+2" style="line-height:3.5em;" >Visualizador de base de datos IOT equipo 5.</font></center>
+  
 
-<script defer>
-  const display = document.getElementById('displayListaSensores')
-  const baseUrl = 'http://localhost:3100/getSensorList'
+  
 
-  getInfo()
+  
+ 
+  
+  
+  
+  <div class="tab">
+    <button class="tablinks" onclick="clickHandle(event, 'Sensores')">Sensores</button>
+    <button class="tablinks" onclick="clickHandle(event, 'Humedad')">Humedad</button>
+    <button class="tablinks" onclick="clickHandle(event, 'Movimiento')">Movimiento</button>
+    <button class="tablinks" onclick="clickHandle(event, 'RFID')">RFID</button>
+    <button class="tablinks" onclick="clickHandle(event, 'Presión')">Presión</button>
+    <button class="tablinks" onclick="clickHandle(event, 'Combinación')">Combinación</button>
+    <button class="tablinks" onclick="clickHandle(event, 'Distancia')">Distancia</button>
+    </div>
 
-  async function getInfo(){
-    const res = await fetch(baseUrl, {method: 'GET'})
-    const data = await res.json()
-    text = data.info[0].nombre + "<br>"
-    for (let i = 1; i < data.info.length; i++){
+    <style>
+      /* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: rgb(248, 248, 147);
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: rgb(255, 170, 0);
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  
+  
+  border-top: none;
+}
+</style>
+
+  <!-- <div id="piechart"></div> -->
+   
+
+  <div id="Sensores" class="tabcontent">
+    <h3>
+      
+
+      
+      <div style="float: left; margin: 40px ;">
+        <p>Nombre de sensores registrados:</p>
+        <p id="displayListaSensores"></p>
+        </div>
+        <div style="float: left; margin: 40px ;">
+          <p>Numero de cada sensor registrado:</p>
+        <p id="displayNumerosSensores"></p>
+        </div>
+      </h3>
+    </div>
+
+
+    <div id="Humedad" class="tabcontent">
+    <h3>
+      
+      <div style="float: left; margin: 40px ;">
+        <p>Fecha de registro:</p>
+        <p id="displayFechaHumedad"></p>
+        </div>
+        <div style="float: left; margin: 40px ;">
+          <p>Datos de humedad:</p>
+        <p id="displayDataHumedad"></p>
+        </div>
+      </h3>
+    </div>
+
+    <div id="Movimiento" class="tabcontent">
+    <h3>
+      
+      <div style="float: left; margin: 40px ;">
+        <p>Fecha de registro:</p>
+        <p id="displayFechaAlarma"></p>
+        </div>
+        <div style="float: left; margin: 40px ;">
+          <p>Estado:</p>
+        <p id="displayDataAlarma"></p>
+        </div>
+      </h3>
+    </div>
+
+    <div id="RFID" class="tabcontent">
+    <h3>
+      
+      <div style="float: left; margin: 40px ;">
+        <p>Fecha de registro:</p>
+        <p id="displayFechaRFID"></p>
+        </div>
+        <div style="float: left; margin: 40px ;">
+          <p>Estado:</p>
+        <p id="displayEstadoRFID"></p>
+        </div>
+      </h3>
+    </div>
+
+    <div id="Presión" class="tabcontent">
+    <h3>
+      
+      <div style="float: left; margin: 40px ;">
+        <p>Fecha de registro:</p>
+        <p id="displayFechaPresion"></p>
+        </div>
+        <div style="float: left; margin: 40px ;">
+          <p>Estado:</p>
+        <p id="displayEstadoPresion"></p>
+        </div>
+      </h3>
+    </div>
+
+    <div id="Combinación" class="tabcontent">
+    <h3>
+      
+      <div style="float: left; margin: 40px ;">
+        <p>Fecha de registro:</p>
+        <p id="displayFechaCom"></p>
+        </div>
+        <div style="float: left; margin: 40px ;">
+          <p>Estado:</p>
+        <p id="displayEstadoCom"></p>
+        </div>
+      </h3>
+    </div>
+
+    <div id="Distancia" class="tabcontent">
+    <h3>
+      
+      <div style="float: left; margin: 40px ;">
+        <p>Fecha de registro:</p>
+        <p id="displayFechaDis"></p>
+        </div>
+        <div style="float: left; margin: 40px ;">
+          <p>Estado:</p>
+        <p id="displayEstadoDis"></p>
+        </div>
+      </h3>
+    </div>
+
+
+    <script defer> 
+    getInfo()
+
+    async function getInfo(){
+      const res = await fetch(baseUrl + 'select_fecha_from_distancia', {method: 'GET'})
+      const data = await res.json()
+      text = data.info[0].fecha + "<br>"
+
+      for (let i = 1; i < data.info.length; i++){
+	    text += data.info[i].fecha + "<br>"
+      }
+      document.getElementById('displayFechaDis').innerHTML = text
+      console.log(text)
+    }   
+  
+</script>
+
+<script defer> 
+    getInfo()
+
+    async function getInfo(){
+      const res = await fetch(baseUrl + 'select_distancia_from_distancia', {method: 'GET'})
+      const data = await res.json()
+      text = data.info[0].distancia + "<br>"
+
+      for (let i = 1; i < data.info.length; i++){
+	    text += data.info[i].distancia + "<br>"
+      }
+      document.getElementById('displayEstadoDis').innerHTML = text
+      console.log(text)
+    }   
+  
+</script>
+
+
+
+    <script defer> 
+    getInfo()
+
+    async function getInfo(){
+      const res = await fetch(baseUrl + 'select_fecha_from_password', {method: 'GET'})
+      const data = await res.json()
+      text = data.info[0].fecha + "<br>"
+
+      for (let i = 1; i < data.info.length; i++){
+	    text += data.info[i].fecha + "<br>"
+      }
+      document.getElementById('displayFechaCom').innerHTML = text
+      console.log(text)
+    }   
+  
+</script>
+
+<script defer> 
+    getInfo()
+
+    async function getInfo(){
+      const res = await fetch(baseUrl + 'select_validacion_from_password', {method: 'GET'})
+      const data = await res.json()
+      text = data.info[0].validacion + "<br>"
+
+      for (let i = 1; i < data.info.length; i++){
+	    text += data.info[i].validacion + "<br>"
+      }
+      document.getElementById('displayEstadoCom').innerHTML = text
+      console.log(text)
+    }   
+  
+</script>
+
+
+    <script defer> 
+    getInfo()
+
+    async function getInfo(){
+      const res = await fetch(baseUrl + 'select_activacion_from_salida', {method: 'GET'})
+      const data = await res.json()
+      text = data.info[0].activacion + "<br>"
+
+      for (let i = 1; i < data.info.length; i++){
+	    text += data.info[i].activacion + "<br>"
+      }
+      document.getElementById('displayEstadoPresion').innerHTML = text
+      console.log(text)
+    }   
+  
+</script>
+
+
+<script defer> 
+    getInfo()
+
+    async function getInfo(){
+      const res = await fetch(baseUrl + 'select_fecha_from_salida', {method: 'GET'})
+      const data = await res.json()
+      text = data.info[0].fecha + "<br>"
+
+      for (let i = 1; i < data.info.length; i++){
+	    text += data.info[i].fecha + "<br>"
+      }
+      document.getElementById('displayFechaPresion').innerHTML = text
+      console.log(text)
+    }   
+  
+</script>
+
+    <script defer> 
+    getInfo()
+
+    async function getInfo(){
+      const res = await fetch(baseUrl + 'select_fecha_from_rfid', {method: 'GET'})
+      const data = await res.json()
+      text = data.info[0].fecha + "<br>"
+
+      for (let i = 1; i < data.info.length; i++){
+	    text += data.info[i].fecha + "<br>"
+      }
+      document.getElementById('displayFechaRFID').innerHTML = text
+      console.log(text)
+    }   
+  
+</script>
+
+<script defer> 
+    getInfo()
+
+    async function getInfo(){
+      const res = await fetch(baseUrl + 'select_estado_from_rfid', {method: 'GET'})
+      const data = await res.json()
+      text = data.info[0].estado + "<br>"
+
+      for (let i = 1; i < data.info.length; i++){
+	    text += data.info[i].estado + "<br>"
+      }
+      document.getElementById('displayEstadoRFID').innerHTML = text
+      console.log(text)
+    }   
+  
+</script>
+  
+  
+  <script defer> 
+    getInfo()
+
+    async function getInfo(){
+      const res = await fetch(baseUrl + 'select_nombre_from_sensores', {method: 'GET'})
+      const data = await res.json()
+      text = data.info[0].nombre + "<br>"
+
+      for (let i = 1; i < data.info.length; i++){
 	    text += data.info[i].nombre + "<br>"
-    }
-    display.innerHTML = text
-    console.log(text)
-  }
+      }
+      document.getElementById('displayListaSensores').innerHTML = text
+      console.log(text)
+    }   
+  
+</script>
+
+<script defer> 
+    getInfo()
+
+    async function getInfo(){
+      const res = await fetch(baseUrl + 'select_datahumedad_from_humedad', {method: 'GET'})
+      const data = await res.json()
+      text = data.info[0].datahumedad + "<br>"
+
+      for (let i = 1; i < data.info.length; i++){
+	    text += data.info[i].datahumedad + "<br>"
+      }
+      document.getElementById('displayDataHumedad').innerHTML = text
+      console.log(text)
+    }   
+    
 
 </script>
+
+<script defer> 
+    getInfo()
+
+    async function getInfo(){
+      const res = await fetch(baseUrl + 'select_fecha_from_humedad', {method: 'GET'})
+      const data = await res.json()
+      text = data.info[0].fecha + "<br>"
+
+      for (let i = 1; i < data.info.length; i++){
+	    text += data.info[i].fecha + "<br>"
+      }
+      document.getElementById('displayFechaHumedad').innerHTML = text
+      console.log(text)
+    }   
+    
+
+</script>
+
+<script defer> 
+    getInfo()
+
+    async function getInfo(){
+      const res = await fetch(baseUrl + 'select_fecha_from_alarma', {method: 'GET'})
+      const data = await res.json()
+      text = data.info[0].fecha + "<br>"
+
+      for (let i = 1; i < data.info.length; i++){
+	    text += data.info[i].fecha + "<br>"
+      }
+      document.getElementById('displayFechaAlarma').innerHTML = text
+      console.log(text)
+    }   
+    
+
+</script>
+
+<script defer> 
+    getInfo()
+
+    async function getInfo(){
+      const res = await fetch(baseUrl + 'select_estado_from_alarma', {method: 'GET'})
+      const data = await res.json()
+      text = data.info[0].estado + "<br>"
+
+      for (let i = 1; i < data.info.length; i++){
+	    text += data.info[i].estado + "<br>"
+      }
+      document.getElementById('displayDataAlarma').innerHTML = text
+      console.log(text)
+    }   
+    
+
+</script>
+
+<script defer> 
+    getInfo()
+
+    async function getInfo(){
+      const res = await fetch(baseUrl + 'select_sID_from_sensores', {method: 'GET'})
+      const data = await res.json()
+      text = data.info[0].sID + "<br>"
+
+      for (let i = 1; i < data.info.length; i++){
+	    text += data.info[i].sID + "<br>"
+      }
+      document.getElementById('displayNumerosSensores').innerHTML = text
+      console.log(text)
+    }   
+
+</script>
+
+
+
+<script>
+function clickHandle(evt, eventName) {
+  let i, tabcontent, tablinks;
+
+  // This is to clear the previous clicked content.
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Set the tab to be "active".
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+
+  // Display the clicked tab and set it to active.
+  document.getElementById(eventName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+</script>
+
+
 
 <script type="text/javascript">
 // Load google charts
@@ -60,7 +475,6 @@ function drawChart() {
   chart.draw(data, options);
 }
 </script>
-
 
 </body>
 </html>
