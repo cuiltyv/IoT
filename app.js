@@ -33,7 +33,7 @@ app.get('/DB_Request/:dynamic', function(req, res) {
   //Requerimos el modulo para sql
   var mysql = require('mysql2');
 
-  // Parseamos los contenidos de la url
+  //Parseamos los contenidos de la url
   query = req.url.replace('/DB_Request/', '').replaceAll('_', ' ')
   console.log(query)
 
