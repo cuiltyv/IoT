@@ -304,7 +304,7 @@
     getInfo()
 
     async function getInfo(){
-      const res = await fetch(baseUrl + 'select_estado_from_rfid', {method: 'GET'})
+      const res = await fetch(baseUrl + 'select_tarjetaID_from_rfid', {method: 'GET'})
       const data = await res.json()
       text = data.info[0].estado + "<br>"
 
