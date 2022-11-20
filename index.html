@@ -11,7 +11,7 @@
 </head>
 
 <body>
-
+ 
   <p>Visualizador de base de datos IOT equipo 5.</p>
   <p>Lista de sensores registrados:</p>
   <p id="displayListaSensores"></p>
@@ -53,10 +53,19 @@
 
 </script>
 
-<script type="text/javascript">
-// Load google charts
-google.charts.load('current', {'packages':['corechart']});
-google.charts.setOnLoadCallback(drawChart);
+<script defer>
+  // Load google charts
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+
+  getInfo()
+
+  async function getInfo(){
+    const res = await fetch(baseUrl + 'select_count(*)_from_sensores', {method: 'GET'})
+    const data = await res.json()
+    
+    console.log(parseInt(Object.values(data.info['0'])))
+  }
 
 // Draw the chart and set the chart values
 function drawChart() {
