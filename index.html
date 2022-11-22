@@ -158,6 +158,7 @@
       getInfo()
 
       async function getInfo(){
+        //Query bien esoterico de sql
         const res = await fetch(baseUrl + 'select_count(*)_from_(select_sensorID_from_humedad_union_all_select_sensorID_from_alarma_union_all_select_sensorID_from_rfid_union_all_select_sensorID_from_salida_union_all_select_sensorID_from_password_union_all_select_sensorID_from_distancia)_s_group_by_sensorID;', {method: 'GET'})
         const data = await res.json()
 
