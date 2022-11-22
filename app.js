@@ -28,6 +28,11 @@ app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, 'index.html'))
 })
 
+//Ruta para la pagina principal
+app.get('/favicon.ico', function(req, res) {
+  res.sendFile(path.join(__dirname, 'favicon.ico'))
+})
+
 //Ruta para la lista de sensores
 app.get('/DB_Request/:dynamic', function(req, res) {
   //Requerimos el modulo para sql
@@ -35,7 +40,7 @@ app.get('/DB_Request/:dynamic', function(req, res) {
 
   // Parseamos los contenidos de la url
   query = req.url.replace('/DB_Request/', '').replaceAll('_', ' ')
-  console.log(query)
+  //console.log(query)
 
   //Conectamos a la base de datos con la info de /config/db.config.js
   var connection = mysql.createConnection({host: config.HOST, user: config.USER, password: config.PASSWORD, database: config.DB});
