@@ -7,8 +7,9 @@ const cors = require('cors')
 const fs = require('fs')
 const path = require('path')
 const morgan = require('morgan')
+const router = require('./routes/route')
 const app = express()
-const config = require('./config/db.config.js')
+const config = require('./config/db.config')
 
 app.use(cors())
 
@@ -18,6 +19,9 @@ app.use(bodyParser.json())
 
 //Traemos morgan para loggear
 app.use(morgan('dev'))
+
+//Traemos el router para la conexion de las nodes
+app.use(router)
 
 //Creamos el stream para loggear
 var accessLogStream = fs.createWriteStream(path.join(__dirname, '/logs/access.log'), { flags: 'a' })
