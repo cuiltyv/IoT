@@ -71,4 +71,3 @@ class MainController {
  
 const sensor = new MainController()
 module.exports = sensor;
-

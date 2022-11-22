@@ -7,9 +7,10 @@ const cors = require('cors')
 const fs = require('fs')
 const path = require('path')
 const morgan = require('morgan')
+const config = require('./config/db.config.js')
 const router = require('./routes/route')
 const app = express()
-const config = require('./config/db.config')
+
 
 app.use(cors())
 
@@ -26,6 +27,9 @@ app.use(router)
 //Creamos el stream para loggear
 var accessLogStream = fs.createWriteStream(path.join(__dirname, '/logs/access.log'), { flags: 'a' })
 app.use(morgan('combined', { stream: accessLogStream }))
+
+//Traemos el router para poster desde las nodes
+app.use(router)
 
 //Ruta para la pagina principal
 app.get('/', function(req, res) {

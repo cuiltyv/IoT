@@ -6,9 +6,4 @@ const mysql = require('mysql2')
 router.get('/api/getLogs/:tabla', sensor.getLogs);
 router.post('/api/logData/:tabla/:sensorID/:data', sensor.logData);
 
-//module.exports = router;
-
-//router.get('/api/getLogs/:sensorID', sensor.getLogs);
-//router.post('/api/logData/:tabla/:sensorID/:data', sensor.logData);
-
 module.exports = router;
