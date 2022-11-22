@@ -11,6 +11,7 @@ const config = require('./config/db.config.js')
 const router = require('./routes/route')
 const app = express()
 
+
 app.use(cors())
 
 //Traemos el parser
@@ -19,6 +20,9 @@ app.use(bodyParser.json())
 
 //Traemos morgan para loggear
 app.use(morgan('dev'))
+
+//Traemos el router para la conexion de las nodes
+app.use(router)
 
 //Creamos el stream para loggear
 var accessLogStream = fs.createWriteStream(path.join(__dirname, '/logs/access.log'), { flags: 'a' })
