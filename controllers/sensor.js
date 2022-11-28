@@ -53,7 +53,7 @@ class MainController {
         console.log(req.params.sensorID)
         if(req.params.sensorID!=null){
             let sensorID = req.params.sensorID;
-            var sql = `SELECT * FROM humedad where sensorID='${sensorID}'`
+            var sql = `select validacion from password ORDER BY log_id desc limit 1`
             mysql.query(sql, (error, data, fields) => {
                 if(error) {
                     res.status(500)

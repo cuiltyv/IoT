@@ -148,7 +148,7 @@
       <p>Datos generales:</p>
       <p id="displayCountGeneral"></p>
     </div>
-    <div style="float: left; margin 40px; " id="piechart" style="width: 700px; height: 700px;"></div>
+    <div style="float: left; margin: 40px ; " id="piechart" style="width: 700px; height: 700px;"></div>
 
     <!-- Script para la piechart-->
     <script defer>
@@ -322,10 +322,10 @@
       async function getInfo(){
         const res = await fetch(baseUrl + 'select_tarjetaID_from_rfid', {method: 'GET'})
         const data = await res.json()
-        text = data.info[0].estado + "<br>"
+        text = data.info[0].tarjetaID + "<br>"
       
         for (let i = 1; i < data.info.length; i++){
-       text += data.info[i].estado + "<br>"
+       text += data.info[i].tarjetaID + "<br>"
         }
         document.getElementById('displayEstadoRFID').innerHTML = text
         console.log(text)

@@ -65,6 +65,8 @@ app.get('/DB_Request/:dynamic', function(req, res) {
   connection.end();
 })
 
+
+
 const port = 3100
 app.listen(port, () => {
   console.log('Server started running on : ' + port)
